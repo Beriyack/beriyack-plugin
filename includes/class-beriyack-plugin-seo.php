@@ -1,8 +1,8 @@
 <?php
 /**
- * The public-facing SEO functionality of the plugin.
+ * Gestion du SEO social en frontend (Facebook et Twitter)
  *
- * Injects Open Graph (Facebook) and Twitter Card tags in wp_head dynamically.
+ * Injecte dynamiquement les balises Open Graph (Facebook) et Twitter Card dans le <head> public.
  *
  * @link       https://github.com/beriyack/beriyack-plugin
  * @since      1.0.0
@@ -17,17 +17,17 @@ if ( ! defined( 'WPINC' ) ) {
 class Beriyack_Plugin_SEO {
 
 	/**
-	 * Initialize the hooks for the public-facing SEO.
+	 * Initialise les hooks pour la partie publique (SEO).
 	 */
 	public function init_hooks() {
 		add_action( 'wp_head', array( $this, 'insert_social_tags' ), 5 );
 	}
 
 	/**
-	 * Insert Open Graph and Twitter Card tags in the site head.
+	 * Injecte les balises Open Graph et Twitter Card dans la balise head du site.
 	 */
 	public function insert_social_tags() {
-		// Do not run on admin, feed, xmlrpc or login pages
+		// Ne pas exécuter dans l'admin, les flux RSS, les requêtes XML-RPC ou l'écran de connexion
 		if ( is_admin() || is_feed() || defined( 'XMLRPC_REQUEST' ) || ( isset( $GLOBALS['pagenow'] ) && $GLOBALS['pagenow'] === 'wp-login.php' ) ) {
 			return;
 		}
@@ -39,7 +39,7 @@ class Beriyack_Plugin_SEO {
 			return;
 		}
 
-		// 1. Determine URL
+		// 1. Détermination de l'URL courante
 		if ( is_singular() ) {
 			$url = get_permalink();
 		} else {
@@ -47,7 +47,7 @@ class Beriyack_Plugin_SEO {
 			$url = home_url( add_query_arg( array(), $wp->request ) );
 		}
 
-		// 2. Determine Title
+		// 2. Détermination du Titre
 		if ( is_front_page() || is_home() ) {
 			$title = get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' );
 		} elseif ( is_singular() ) {
@@ -56,14 +56,14 @@ class Beriyack_Plugin_SEO {
 			$title = wp_get_document_title();
 		}
 
-		// 3. Determine Description
+		// 3. Détermination de la Description
 		$description = '';
 		if ( is_singular() ) {
 			$post = get_post();
 			if ( $post && ! empty( $post->post_excerpt ) ) {
 				$description = wp_strip_all_tags( $post->post_excerpt );
 			} elseif ( $post && ! empty( $post->post_content ) ) {
-				// Strip shortcodes and HTML, then grab an excerpt
+				// Supprime les codes courts (shortcodes) et le HTML, puis tronque à 150 caractères
 				$content     = wp_strip_all_tags( strip_shortcodes( $post->post_content ) );
 				$description = wp_html_excerpt( $content, 150, '...' );
 			} else {
@@ -73,34 +73,34 @@ class Beriyack_Plugin_SEO {
 			$description = get_bloginfo( 'description' );
 		}
 
-		// 4. Determine Image
+		// 4. Détermination de l'Image sociale
 		$image = '';
 		if ( is_singular() && has_post_thumbnail() ) {
 			$image = get_the_post_thumbnail_url( get_the_ID(), 'large' );
 		}
 
-		// Fallback to option if empty
+		// Si aucune image à la une, on utilise l'image par défaut (fallback) du plugin
 		if ( empty( $image ) && ! empty( $options['seo_fallback_img'] ) ) {
 			$image = $options['seo_fallback_img'];
 		}
 
-		// 5. Determine Type
+		// 5. Détermination du type (article pour un contenu individuel, site web pour le reste)
 		$type = is_singular( 'post' ) ? 'article' : 'website';
 
-		// 6. Gather other metadata
+		// 6. Récupération des autres réglages
 		$site_name    = get_bloginfo( 'name' );
 		$twitter_site = isset( $options['seo_twitter_site'] ) ? $options['seo_twitter_site'] : '';
 		$fb_app_id    = isset( $options['seo_fb_app_id'] ) ? $options['seo_fb_app_id'] : '';
 
-		// Clean values for tag output
+		// Sécurisation des valeurs pour l'affichage HTML
 		$title       = esc_attr( wp_strip_all_tags( $title ) );
 		$description = esc_attr( wp_strip_all_tags( $description ) );
 		$url         = esc_url( $url );
 		$image       = esc_url( $image );
 		$site_name   = esc_attr( $site_name );
 
-		// Output Open Graph tags
-		echo "\n<!-- Beriyack Plugin SEO Social Tags -->\n";
+		// Rendu des balises Open Graph (Facebook, LinkedIn, etc.)
+		echo "\n<!-- Réglages de partage social par Beriyack Plugin -->\n";
 		echo '<meta property="og:site_name" content="' . $site_name . '" />' . "\n";
 		echo '<meta property="og:type" content="' . $type . '" />' . "\n";
 		echo '<meta property="og:title" content="' . $title . '" />' . "\n";
@@ -113,7 +113,7 @@ class Beriyack_Plugin_SEO {
 			echo '<meta property="fb:app_id" content="' . esc_attr( $fb_app_id ) . '" />' . "\n";
 		}
 
-		// Output Twitter Card tags
+		// Rendu des balises Twitter Card
 		echo '<meta name="twitter:card" content="summary_large_image" />' . "\n";
 		echo '<meta name="twitter:title" content="' . $title . '" />' . "\n";
 		echo '<meta name="twitter:description" content="' . $description . '" />' . "\n";
@@ -121,11 +121,11 @@ class Beriyack_Plugin_SEO {
 			echo '<meta name="twitter:image" content="' . $image . '" />' . "\n";
 		}
 		if ( ! empty( $twitter_site ) ) {
-			// Prepend @ if it's missing
+			// On s'assure de précéder le compte Twitter d'un @ s'il manque
 			$twitter_site_formatted = ( strpos( $twitter_site, '@' ) === 0 ) ? $twitter_site : '@' . $twitter_site;
 			echo '<meta name="twitter:site" content="' . esc_attr( $twitter_site_formatted ) . '" />' . "\n";
 			echo '<meta name="twitter:creator" content="' . esc_attr( $twitter_site_formatted ) . '" />' . "\n";
 		}
-		echo "<!-- / Beriyack Plugin SEO Social Tags -->\n\n";
+		echo "<!-- / Réglages de partage social par Beriyack Plugin -->\n\n";
 	}
 }

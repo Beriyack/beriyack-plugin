@@ -1,11 +1,10 @@
 <?php
 /**
- * The plugin bootstrap file
+ * Fichier principal d'initialisation du plugin
  *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
+ * Ce fichier est lu par WordPress pour générer les métadonnées de l'extension
+ * dans l'administration de WordPress. Il charge également toutes les dépendances,
+ * enregistre les fonctions d'activation/désactivation et démarre le plugin.
  *
  * @link              https://github.com/beriyack/beriyack-plugin
  * @since             1.0.0
@@ -24,7 +23,7 @@
  * Domain Path:       /languages
  */
 
-// If this file is called directly, abort.
+// Si ce fichier est appelé directement, on avorte.
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
@@ -34,27 +33,26 @@ define( 'BERIYACK_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BERIYACK_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 /**
- * The code that runs during plugin activation.
+ * Code exécuté lors de l'activation du plugin.
  */
 function activate_beriyack_plugin() {
 	require_once BERIYACK_PLUGIN_PATH . 'includes/class-beriyack-plugin-admin.php';
-	// Set default options on activation if they don't exist
+	// Définit les options par défaut lors de l'activation si elles n'existent pas
 	Beriyack_Plugin_Admin::set_default_options();
 }
 register_activation_hook( __FILE__, 'activate_beriyack_plugin' );
 
 /**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
+ * La classe principale du plugin utilisée pour définir l'internationalisation,
+ * les hooks d'administration et les hooks publics.
  */
 require BERIYACK_PLUGIN_PATH . 'includes/class-beriyack-plugin.php';
 
 /**
- * Begins execution of the plugin.
+ * Démarre l'exécution du plugin.
  *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file will
- * register all of the hooks with WordPress.
+ * Comme tout le plugin est enregistré via des hooks WordPress, le lancement
+ * de la classe principale va enregistrer tous les hooks nécessaires.
  *
  * @since    1.0.0
  */

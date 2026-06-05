@@ -1,8 +1,8 @@
 <?php
 /**
- * The security and optimization functionality of the plugin.
+ * Gestion de la sécurité et des optimisations de performance du site.
  *
- * Implements various WordPress filters and actions to secure and speed up the website.
+ * Implémente différents filtres et actions WordPress pour sécuriser et accélérer le chargement.
  *
  * @link       https://github.com/beriyack/beriyack-plugin
  * @since      1.0.0
@@ -17,63 +17,73 @@ if ( ! defined( 'WPINC' ) ) {
 class Beriyack_Plugin_Security {
 
 	/**
-	 * Initialize the hooks.
+	 * Initialise les hooks de sécurité et de vitesse.
 	 */
 	public function init_hooks() {
 		$options = get_option( 'beriyack_plugin_options', array() );
 
-		// 1. Revision limit
+		// 1. Limitation dynamique du nombre de révisions
 		add_filter( 'wp_revisions_to_keep', array( $this, 'limit_revisions_count' ), 10, 2 );
 
-		// 2. Remove generator tag
+		// 2. Suppression de la balise meta generator (version de WordPress)
 		if ( isset( $options['sec_rm_generator'] ) && '1' === $options['sec_rm_generator'] ) {
 			add_action( 'init', array( $this, 'remove_wp_generator' ) );
 		}
 
-		// 3. Hide login errors
+		// 3. Masquage des erreurs de connexion précises sur l'écran wp-login
 		if ( isset( $options['sec_hide_login'] ) && '1' === $options['sec_hide_login'] ) {
 			add_filter( 'login_errors', array( $this, 'hide_login_errors' ) );
 		}
 
-		// 4. Disable XML-RPC
+		// 4. Désactivation d'XML-RPC
 		if ( isset( $options['sec_dis_xmlrpc'] ) && '1' === $options['sec_dis_xmlrpc'] ) {
 			add_filter( 'xmlrpc_enabled', '__return_false' );
 			add_filter( 'wp_headers', array( $this, 'remove_xmlrpc_pingback_header' ) );
 		}
 
-		// 5. Restrict REST API to logged in users
+		// 5. Restriction de l'API REST aux seuls utilisateurs connectés
 		if ( isset( $options['sec_dis_rest_api'] ) && '1' === $options['sec_dis_rest_api'] ) {
 			add_filter( 'rest_authentication_errors', array( $this, 'restrict_rest_api_access' ) );
 		}
 
-		// 6. Remove version from styles and scripts
+		// 6. Retrait des paramètres de version (?ver=) des ressources statiques
 		if ( isset( $options['sec_rm_ver'] ) && '1' === $options['sec_rm_ver'] ) {
 			add_filter( 'style_loader_src', array( $this, 'remove_asset_version' ), 9999 );
 			add_filter( 'script_loader_src', array( $this, 'remove_asset_version' ), 9999 );
 		}
 
-		// 7. Disable emojis
+		// 7. Désactivation complète des émojis WordPress natifs
 		if ( isset( $options['sec_dis_emojis'] ) && '1' === $options['sec_dis_emojis'] ) {
 			add_action( 'init', array( $this, 'disable_emojis' ) );
 		}
 	}
 
 	/**
-	 * Limit revisions count dynamically.
+	 * Limite le nombre de révisions conservées en base de données.
+	 *
+	 * - Valeur < 0 (ex: -1) : Révisions illimitées.
+	 * - Valeur 0 : Révisions désactivées.
+	 * - Valeur > 0 (ex: 10) : Limite au nombre d'entrées choisi.
 	 */
 	public function limit_revisions_count( $num, $post ) {
 		$options = get_option( 'beriyack_plugin_options', array() );
 		$limit   = isset( $options['sec_revisions'] ) ? $options['sec_revisions'] : '5';
 
-		if ( 'disabled' === $limit ) {
+		if ( '' === $limit ) {
 			return $num;
 		}
 
-		return intval( $limit );
+		$limit_int = intval( $limit );
+
+		if ( $limit_int < 0 ) {
+			return -1; // Révisions illimitées
+		}
+
+		return $limit_int;
 	}
 
 	/**
-	 * Remove generator meta tags.
+	 * Supprime la version de WordPress dans le code source HTML.
 	 */
 	public function remove_wp_generator() {
 		remove_action( 'wp_head', 'wp_generator' );
@@ -81,14 +91,14 @@ class Beriyack_Plugin_Security {
 	}
 
 	/**
-	 * Hide login error details.
+	 * Remplace les erreurs de login par un message générique.
 	 */
 	public function hide_login_errors() {
 		return __( 'Identifiants de connexion incorrects.', 'beriyack-plugin' );
 	}
 
 	/**
-	 * Remove X-Pingback header.
+	 * Supprime l'en-tête HTTP X-Pingback d'XML-RPC.
 	 */
 	public function remove_xmlrpc_pingback_header( $headers ) {
 		unset( $headers['X-Pingback'] );
@@ -96,7 +106,7 @@ class Beriyack_Plugin_Security {
 	}
 
 	/**
-	 * Restrict REST API to logged in users.
+	 * Empêche l'accès anonyme à l'API REST de WordPress.
 	 */
 	public function restrict_rest_api_access( $errors ) {
 		if ( is_wp_error( $errors ) ) {
@@ -113,7 +123,7 @@ class Beriyack_Plugin_Security {
 	}
 
 	/**
-	 * Strip query strings (ver) from static scripts/styles.
+	 * Nettoie les paramètres "?ver=" à la fin des URL de scripts et styles.
 	 */
 	public function remove_asset_version( $src ) {
 		if ( strpos( $src, 'ver=' ) ) {
@@ -123,7 +133,7 @@ class Beriyack_Plugin_Security {
 	}
 
 	/**
-	 * Disable emojis in frontend and admin.
+	 * Désactive les scripts et styles émojis natifs en public et en admin.
 	 */
 	public function disable_emojis() {
 		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
@@ -138,7 +148,7 @@ class Beriyack_Plugin_Security {
 	}
 
 	/**
-	 * Disable emojis in TinyMCE editor.
+	 * Retire l'émoji TinyMCE.
 	 */
 	public function disable_emojis_tinymce( $plugins ) {
 		if ( is_array( $plugins ) ) {
@@ -148,7 +158,7 @@ class Beriyack_Plugin_Security {
 	}
 
 	/**
-	 * Disable emoji DNS prefetch hints.
+	 * Retire l'adresse de prefetch DNS des émojis de WordPress.
 	 */
 	public function disable_emojis_dns_prefetch( $urls, $relation_type ) {
 		if ( 'dns-prefetch' === $relation_type ) {

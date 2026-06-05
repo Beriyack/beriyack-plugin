@@ -1,9 +1,9 @@
 <?php
 /**
- * The file that defines the core plugin class
+ * Fichier définissant la classe d'orchestration principale du plugin.
  *
- * A class definition that includes attributes and functions used across both the
- * public-facing side of the site and the admin area.
+ * Charge les dépendances et lance l'enregistrement des hooks d'administration
+ * et de la partie publique du site.
  *
  * @link       https://github.com/beriyack/beriyack-plugin
  * @since      1.0.0
@@ -18,11 +18,10 @@ if ( ! defined( 'WPINC' ) ) {
 class Beriyack_Plugin {
 
 	/**
-	 * Define the core functionality of the plugin.
+	 * Définit les fonctionnalités principales du plugin.
 	 *
-	 * Set the plugin name and the plugin version that can be used throughout the plugin.
-	 * Load the dependencies, and set the hooks for the admin area and
-	 * the public-facing side of the site.
+	 * Initialise le plugin, charge les dépendances et prépare les hooks
+	 * pour l'administration et le frontend.
 	 *
 	 * @since    1.0.0
 	 */
@@ -31,13 +30,12 @@ class Beriyack_Plugin {
 	}
 
 	/**
-	 * Load the required dependencies for this plugin.
+	 * Charge les dépendances requises pour le plugin.
 	 *
-	 * Include the following files that make up the plugin:
-	 *
-	 * - Beriyack_Plugin_Admin. Handles all administrative options and styles.
-	 * - Beriyack_Plugin_SEO. Handles Open Graph and Twitter Card tags in frontend.
-	 * - Beriyack_Plugin_Security. Handles security and optimizations filters.
+	 * Inclut les fichiers suivants :
+	 * - Beriyack_Plugin_Admin : Gestion de l'admin (styles, JS, AJAX, réglages).
+	 * - Beriyack_Plugin_SEO : Gestion des balises Open Graph et Twitter Cards en frontend.
+	 * - Beriyack_Plugin_Security : Gestion des filtres de sécurité et de vitesse.
 	 *
 	 * @since    1.0.0
 	 * @access   private
@@ -49,20 +47,20 @@ class Beriyack_Plugin {
 	}
 
 	/**
-	 * Run the loader to execute all of the hooks with WordPress.
+	 * Exécute le plugin en attachant tous les hooks à WordPress.
 	 *
 	 * @since    1.0.0
 	 */
 	public function run() {
-		// Instantiate administrative settings and hooks
+		// Instancie les fonctionnalités et hooks de l'administration
 		$plugin_admin = new Beriyack_Plugin_Admin();
 		$plugin_admin->init_hooks();
 
-		// Instantiate SEO public-facing hooks
+		// Instancie les fonctionnalités et hooks du SEO public
 		$plugin_seo = new Beriyack_Plugin_SEO();
 		$plugin_seo->init_hooks();
 
-		// Instantiate security and optimization hooks
+		// Instancie les fonctionnalités et hooks de sécurité et d'optimisation
 		$plugin_security = new Beriyack_Plugin_Security();
 		$plugin_security->init_hooks();
 	}
