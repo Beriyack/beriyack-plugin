@@ -49,9 +49,11 @@ class Beriyack_Plugin_SEO {
 
 		// 2. Détermination du Titre
 		if ( is_front_page() || is_home() ) {
-			$title = get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' );
-		} elseif ( is_singular() ) {
-			$title = get_the_title();
+			$title = get_bloginfo( 'name' );
+			$site_description = get_bloginfo( 'description' );
+			if ( ! empty( $site_description ) ) {
+				$title .= ' - ' . $site_description;
+			}
 		} else {
 			$title = wp_get_document_title();
 		}
@@ -104,7 +106,9 @@ class Beriyack_Plugin_SEO {
 		echo '<meta property="og:site_name" content="' . $site_name . '" />' . "\n";
 		echo '<meta property="og:type" content="' . $type . '" />' . "\n";
 		echo '<meta property="og:title" content="' . $title . '" />' . "\n";
-		echo '<meta property="og:description" content="' . $description . '" />' . "\n";
+		if ( ! empty( $description ) ) {
+			echo '<meta property="og:description" content="' . $description . '" />' . "\n";
+		}
 		echo '<meta property="og:url" content="' . $url . '" />' . "\n";
 		if ( ! empty( $image ) ) {
 			echo '<meta property="og:image" content="' . $image . '" />' . "\n";
@@ -116,7 +120,9 @@ class Beriyack_Plugin_SEO {
 		// Rendu des balises Twitter Card
 		echo '<meta name="twitter:card" content="summary_large_image" />' . "\n";
 		echo '<meta name="twitter:title" content="' . $title . '" />' . "\n";
-		echo '<meta name="twitter:description" content="' . $description . '" />' . "\n";
+		if ( ! empty( $description ) ) {
+			echo '<meta name="twitter:description" content="' . $description . '" />' . "\n";
+		}
 		if ( ! empty( $image ) ) {
 			echo '<meta name="twitter:image" content="' . $image . '" />' . "\n";
 		}
