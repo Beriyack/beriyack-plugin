@@ -25,6 +25,7 @@ class Beriyack_Plugin_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles_and_scripts' ) );
 		add_action( 'wp_ajax_beriyack_save_settings', array( $this, 'ajax_save_settings' ) );
 		add_action( 'wp_ajax_beriyack_get_post_preview', array( $this, 'ajax_get_post_preview' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( BERIYACK_PLUGIN_PATH . 'beriyack-plugin.php' ), array( $this, 'add_settings_link' ) );
 	}
 
 	/**
@@ -255,5 +256,14 @@ class Beriyack_Plugin_Admin {
 			'excerpt' => $excerpt,
 			'image'   => $image,
 		) );
+	}
+
+	/**
+	 * Ajoute un lien rapide "Réglages" dans la liste des extensions WordPress.
+	 */
+	public function add_settings_link( $links ) {
+		$settings_link = '<a href="' . admin_url( 'admin.php?page=beriyack-plugin' ) . '">' . __( 'Réglages', 'beriyack-plugin' ) . '</a>';
+		array_unshift( $links, $settings_link );
+		return $links;
 	}
 }
