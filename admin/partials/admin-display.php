@@ -173,6 +173,30 @@ if ( ! defined( 'WPINC' ) ) {
 									</div>
 								</div>
 							</div>
+
+							<!-- Option : Ajouter le sitemap au robots.txt -->
+							<div class="beriyack-form-group">
+								<div class="control-header">
+									<label class="control-label" for="seo_add_sitemap_robots">Ajouter l'adresse du Sitemap au fichier robots.txt</label>
+									<div class="beriyack-switch">
+										<input type="checkbox" id="seo_add_sitemap_robots" name="seo_add_sitemap_robots" value="1" <?php checked( $options['seo_add_sitemap_robots'], '1' ); ?>>
+										<span class="switch-slider"></span>
+									</div>
+								</div>
+								<p class="description">Ajoute automatiquement la directive <code>Sitemap: ...</code> à la fin du fichier robots.txt généré par WordPress pour guider les moteurs de recherche.</p>
+							</div>
+
+							<!-- Option : Désindexer les pages de recherche et 404 -->
+							<div class="beriyack-form-group">
+								<div class="control-header">
+									<label class="control-label" for="seo_noindex_search_404">Empêcher l'indexation des pages de recherche et d'erreur 404</label>
+									<div class="beriyack-switch">
+										<input type="checkbox" id="seo_noindex_search_404" name="seo_noindex_search_404" value="1" <?php checked( $options['seo_noindex_search_404'], '1' ); ?>>
+										<span class="switch-slider"></span>
+									</div>
+								</div>
+								<p class="description">Injecte les directives <code>noindex, nofollow</code> via les balises robots natives de WordPress pour éviter le référencement de pages de résultats de recherche internes ou de liens cassés (404).</p>
+							</div>
 						</div>
 
 						<!-- Maquette d'aperçu dynamique réseaux sociaux (Social Preview) -->

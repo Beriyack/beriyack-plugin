@@ -34,17 +34,19 @@ class Beriyack_Plugin_Admin {
 	public static function set_default_options() {
 		if ( false === get_option( 'beriyack_plugin_options' ) ) {
 			$defaults = array(
-				'seo_enable'        => '1',
-				'seo_fb_app_id'     => '',
-				'seo_twitter_site'  => '',
-				'seo_fallback_img'  => '',
-				'sec_revisions'     => '5',
-				'sec_rm_generator'  => '1',
-				'sec_hide_login'    => '1',
-				'sec_dis_xmlrpc'    => '1',
-				'sec_dis_rest_api'  => '0',
-				'sec_rm_ver'        => '0',
-				'sec_dis_emojis'    => '1',
+				'seo_enable'              => '1',
+				'seo_fb_app_id'           => '',
+				'seo_twitter_site'        => '',
+				'seo_fallback_img'        => '',
+				'seo_add_sitemap_robots'  => '1',
+				'seo_noindex_search_404'  => '1',
+				'sec_revisions'           => '5',
+				'sec_rm_generator'        => '1',
+				'sec_hide_login'          => '1',
+				'sec_dis_xmlrpc'          => '1',
+				'sec_dis_rest_api'        => '0',
+				'sec_rm_ver'              => '0',
+				'sec_dis_emojis'          => '1',
 			);
 			update_option( 'beriyack_plugin_options', $defaults );
 		}
@@ -146,17 +148,19 @@ class Beriyack_Plugin_Admin {
 		// Récupère les options stockées
 		$options = get_option( 'beriyack_plugin_options', array() );
 		$defaults = array(
-			'seo_enable'        => '1',
-			'seo_fb_app_id'     => '',
-			'seo_twitter_site'  => '',
-			'seo_fallback_img'  => '',
-			'sec_revisions'     => '5',
-			'sec_rm_generator'  => '1',
-			'sec_hide_login'    => '1',
-			'sec_dis_xmlrpc'    => '1',
-			'sec_dis_rest_api'  => '0',
-			'sec_rm_ver'        => '0',
-			'sec_dis_emojis'    => '1',
+			'seo_enable'              => '1',
+			'seo_fb_app_id'           => '',
+			'seo_twitter_site'        => '',
+			'seo_fallback_img'        => '',
+			'seo_add_sitemap_robots'  => '1',
+			'seo_noindex_search_404'  => '1',
+			'sec_revisions'           => '5',
+			'sec_rm_generator'        => '1',
+			'sec_hide_login'          => '1',
+			'sec_dis_xmlrpc'          => '1',
+			'sec_dis_rest_api'        => '0',
+			'sec_rm_ver'              => '0',
+			'sec_dis_emojis'          => '1',
 		);
 		$options = wp_parse_args( $options, $defaults );
 
@@ -192,20 +196,22 @@ class Beriyack_Plugin_Admin {
 		$options = get_option( 'beriyack_plugin_options', array() );
 
 		// Nettoyage et mise à jour sécurisée des valeurs
-		$options['seo_enable']       = isset( $form_data['seo_enable'] ) ? '1' : '0';
-		$options['seo_fb_app_id']    = isset( $form_data['seo_fb_app_id'] ) ? sanitize_text_field( $form_data['seo_fb_app_id'] ) : '';
-		$options['seo_twitter_site'] = isset( $form_data['seo_twitter_site'] ) ? sanitize_text_field( $form_data['seo_twitter_site'] ) : '';
-		$options['seo_fallback_img'] = isset( $form_data['seo_fallback_img'] ) ? esc_url_raw( $form_data['seo_fallback_img'] ) : '';
+		$options['seo_enable']             = isset( $form_data['seo_enable'] ) ? '1' : '0';
+		$options['seo_fb_app_id']          = isset( $form_data['seo_fb_app_id'] ) ? sanitize_text_field( $form_data['seo_fb_app_id'] ) : '';
+		$options['seo_twitter_site']       = isset( $form_data['seo_twitter_site'] ) ? sanitize_text_field( $form_data['seo_twitter_site'] ) : '';
+		$options['seo_fallback_img']       = isset( $form_data['seo_fallback_img'] ) ? esc_url_raw( $form_data['seo_fallback_img'] ) : '';
+		$options['seo_add_sitemap_robots'] = isset( $form_data['seo_add_sitemap_robots'] ) ? '1' : '0';
+		$options['seo_noindex_search_404'] = isset( $form_data['seo_noindex_search_404'] ) ? '1' : '0';
 
 		// Traitement du nombre de révisions (accepte les valeurs négatives, nulles et positives)
-		$options['sec_revisions']    = isset( $form_data['sec_revisions'] ) ? sanitize_text_field( $form_data['sec_revisions'] ) : '5';
+		$options['sec_revisions']          = isset( $form_data['sec_revisions'] ) ? sanitize_text_field( $form_data['sec_revisions'] ) : '5';
 
-		$options['sec_rm_generator'] = isset( $form_data['sec_rm_generator'] ) ? '1' : '0';
-		$options['sec_hide_login']   = isset( $form_data['sec_hide_login'] ) ? '1' : '0';
-		$options['sec_dis_xmlrpc']   = isset( $form_data['sec_dis_xmlrpc'] ) ? '1' : '0';
-		$options['sec_dis_rest_api'] = isset( $form_data['sec_dis_rest_api'] ) ? '1' : '0';
-		$options['sec_rm_ver']       = isset( $form_data['sec_rm_ver'] ) ? '1' : '0';
-		$options['sec_dis_emojis']   = isset( $form_data['sec_dis_emojis'] ) ? '1' : '0';
+		$options['sec_rm_generator']       = isset( $form_data['sec_rm_generator'] ) ? '1' : '0';
+		$options['sec_hide_login']         = isset( $form_data['sec_hide_login'] ) ? '1' : '0';
+		$options['sec_dis_xmlrpc']         = isset( $form_data['sec_dis_xmlrpc'] ) ? '1' : '0';
+		$options['sec_dis_rest_api']       = isset( $form_data['sec_dis_rest_api'] ) ? '1' : '0';
+		$options['sec_rm_ver']             = isset( $form_data['sec_rm_ver'] ) ? '1' : '0';
+		$options['sec_dis_emojis']         = isset( $form_data['sec_dis_emojis'] ) ? '1' : '0';
 
 		// Sauvegarde de l'option globale
 		update_option( 'beriyack_plugin_options', $options );
