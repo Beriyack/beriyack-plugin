@@ -162,6 +162,7 @@ class Beriyack_Plugin_Security {
 	 */
 	public function disable_emojis_dns_prefetch( $urls, $relation_type ) {
 		if ( 'dns-prefetch' === $relation_type ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			$emoji_svg_url = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/2/svg/' );
 			$urls          = array_diff( $urls, array( $emoji_svg_url ) );
 		}

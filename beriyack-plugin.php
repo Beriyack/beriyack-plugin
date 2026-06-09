@@ -35,12 +35,12 @@ define( 'BERIYACK_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 /**
  * Code exécuté lors de l'activation du plugin.
  */
-function activate_beriyack_plugin() {
+function beriyack_plugin_activate() {
 	require_once BERIYACK_PLUGIN_PATH . 'includes/class-beriyack-plugin-admin.php';
 	// Définit les options par défaut lors de l'activation si elles n'existent pas
 	Beriyack_Plugin_Admin::set_default_options();
 }
-register_activation_hook( __FILE__, 'activate_beriyack_plugin' );
+register_activation_hook( __FILE__, 'beriyack_plugin_activate' );
 
 /**
  * La classe principale du plugin utilisée pour définir l'internationalisation,
@@ -56,8 +56,8 @@ require BERIYACK_PLUGIN_PATH . 'includes/class-beriyack-plugin.php';
  *
  * @since    1.0.0
  */
-function run_beriyack_plugin() {
+function beriyack_plugin_run() {
 	$plugin = new Beriyack_Plugin();
 	$plugin->run();
 }
-run_beriyack_plugin();
+beriyack_plugin_run();
