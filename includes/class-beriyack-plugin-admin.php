@@ -113,7 +113,7 @@ class Beriyack_Plugin_Admin {
 		wp_enqueue_media();
 
 		// Charge les polices Google Fonts
-		wp_enqueue_style( 'beriyack-plugin-google-fonts', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap', array(), null );
+		wp_enqueue_style( 'beriyack-plugin-google-fonts', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap', array(), BERIYACK_PLUGIN_VERSION );
 
 		// Charge le fichier CSS personnalisé
 		wp_enqueue_style( 'beriyack-plugin-admin-style', BERIYACK_PLUGIN_URL . 'admin/css/admin-style.css', array(), BERIYACK_PLUGIN_VERSION );

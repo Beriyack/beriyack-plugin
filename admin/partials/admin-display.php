@@ -102,11 +102,11 @@ if ( ! defined( 'WPINC' ) ) {
 								<div class="system-status-item">
 									<span class="status-label">Version de PHP :</span>
 									<?php 
-									$php_version = PHP_VERSION;
-									if ( version_compare( $php_version, '7.4', '>=' ) ) {
-										echo '<span class="status-badge success">✅ ' . esc_html( $php_version ) . '</span>';
+									$beriyack_php_version = PHP_VERSION;
+									if ( version_compare( $beriyack_php_version, '7.4', '>=' ) ) {
+										echo '<span class="status-badge success">✅ ' . esc_html( $beriyack_php_version ) . '</span>';
 									} else {
-										echo '<span class="status-badge warning">⚠️ ' . esc_html( $php_version ) . ' (Recommandé : 7.4+)</span>';
+										echo '<span class="status-badge warning">⚠️ ' . esc_html( $beriyack_php_version ) . ' (Recommandé : 7.4+)</span>';
 									}
 									?>
 								</div>
@@ -263,9 +263,9 @@ if ( ! defined( 'WPINC' ) ) {
 								<select id="beriyack-preview-post-select" class="beriyack-select inline-select">
 									<option value="default">-- Données par défaut du site (Slogan & Image de fallback) --</option>
 									<?php if ( ! empty( $recent_posts ) ) : ?>
-										<?php foreach ( $recent_posts as $recent_post ) : ?>
-											<option value="<?php echo esc_attr( $recent_post->ID ); ?>">
-												<?php echo esc_html( get_the_title( $recent_post->ID ) ); ?> (<?php echo esc_html( $recent_post->post_type ); ?>)
+										<?php foreach ( $recent_posts as $beriyack_recent_post ) : ?>
+											<option value="<?php echo esc_attr( $beriyack_recent_post->ID ); ?>">
+												<?php echo esc_html( get_the_title( $beriyack_recent_post->ID ) ); ?> (<?php echo esc_html( $beriyack_recent_post->post_type ); ?>)
 											</option>
 										<?php endforeach; ?>
 									<?php endif; ?>
