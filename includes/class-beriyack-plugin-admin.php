@@ -134,15 +134,20 @@ class Beriyack_Plugin_Admin {
 	public function display_settings_page() {
 		// Détection de l'onglet actif en fonction de la page courante ou d'un paramètre d'URL
 		$tab = 'dashboard';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['page'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if ( $_GET['page'] === 'beriyack-plugin-seo' ) {
 				$tab = 'seo';
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			} elseif ( $_GET['page'] === 'beriyack-plugin-security' ) {
 				$tab = 'security';
 			}
 		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['tab'] ) ) {
-			$tab = sanitize_text_field( $_GET['tab'] );
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+			$tab = sanitize_text_field( wp_unslash( $_GET['tab'] ) );
 		}
 
 		// Récupère les options stockées
@@ -189,7 +194,8 @@ class Beriyack_Plugin_Admin {
 		// Analyse les données envoyées par le formulaire
 		$form_data = array();
 		if ( isset( $_POST['form_data'] ) ) {
-			parse_str( $_POST['form_data'], $form_data );
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+			parse_str( wp_unslash( $_POST['form_data'] ), $form_data );
 		}
 
 		// Lecture des options actuelles

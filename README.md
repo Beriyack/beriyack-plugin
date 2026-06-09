@@ -71,6 +71,14 @@ Le plugin désactive le protocole XML-RPC via le filtre `xmlrpc_enabled` et supp
 
 ## 📝 Historique des versions (Changelog)
 
+### Version 1.2.0 (Version courante)
+*   Fusion et intégration complète de l'ancien code SEO (provenant du thème).
+*   Correctif sur l'affichage du sitemap de taxonomie (correction de la fonction `get_sitemap_url`).
+*   Ajout de la balise standard `<meta name="description" content="..." />` sur toutes les pages publiques.
+*   Ajout du bloc de diagnostic « Statut du système » dans le Tableau de bord d'administration (compatibilité `title-tag`, versions PHP/WP et sitemaps).
+*   Correctif complet pour la conformité de validation WordPress.org (Plugin Check - PCP) : ajouts d'échappement en sortie (Late Escaping), des commentaires de traduction (`translators:`) et des exclusions PHPCS.
+*   Création du dossier `languages` à la racine pour les traductions.
+
 ### Version 1.0.0 (Lancement initial)
 *   Implémentation du système complet de SEO social (Open Graph et Twitter Cards) avec logique de fallback d'image.
 *   Ajout de la limitation dynamique des révisions avec saisie numérique directe (`-1`, `0`, `X`).

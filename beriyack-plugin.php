@@ -14,7 +14,7 @@
  * Plugin Name:       Beriyack Plugin
  * Plugin URI:        https://github.com/beriyack/beriyack-plugin
  * Description:       Un plugin WordPress complet pour gérer le SEO social (balises Open Graph, Twitter Cards) et optimiser la sécurité et la vitesse du site (limitation des révisions, suppression des traces WordPress, protection de l'API REST).
- * Version:           1.0.0
+ * Version:           1.2.0
  * Author:            Beriyack
  * Author URI:        https://beriyack.ch
  * License:           MIT
@@ -28,7 +28,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'BERIYACK_PLUGIN_VERSION', '1.0.0' );
+define( 'BERIYACK_PLUGIN_VERSION', '1.2.0' );
 define( 'BERIYACK_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BERIYACK_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 

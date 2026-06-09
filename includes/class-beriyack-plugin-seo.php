@@ -91,10 +91,12 @@ class Beriyack_Plugin_SEO {
 				$title .= ' - ' . $site_description;
 			}
 			if ( empty( $description ) ) {
+				/* translators: %s: Nom du site */
 				$description = sprintf( __( 'Bienvenue sur %s. Découvrez nos derniers contenus et actualités.', 'beriyack-plugin' ), $site_name );
 			}
 		} elseif ( is_home() ) {
 			$title       = wp_get_document_title();
+			/* translators: %s: Nom du site */
 			$description = sprintf( __( 'Retrouvez les derniers articles et actualités de %s.', 'beriyack-plugin' ), $site_name );
 			$url         = get_post_type_archive_link( 'post' );
 		} elseif ( is_singular() ) {
@@ -122,12 +124,14 @@ class Beriyack_Plugin_SEO {
 			$url         = get_term_link( $term );
 			$description = wp_strip_all_tags( term_description( $term ) );
 			if ( empty( $description ) ) {
+				/* translators: %s: Nom du terme de taxonomie */
 				$description = sprintf( __( 'Retrouvez tous les contenus liés à %s.', 'beriyack-plugin' ), $term->name );
 			}
 			// Ajoute un lien vers le sitemap des taxonomies pour un meilleur SEO.
 			if ( function_exists( 'wp_get_sitemap_providers' ) && function_exists( 'get_sitemap_url' ) ) {
 				$sitemap_url = get_sitemap_url( 'taxonomies', $term->taxonomy );
 				if ( $sitemap_url ) {
+					/* translators: %s: Nom de la taxonomie */
 					echo '<link rel="sitemap" type="application/xml" title="' . esc_attr( sprintf( __( 'Sitemap %s', 'beriyack-plugin' ), $term->taxonomy ) ) . '" href="' . esc_url( $sitemap_url ) . '" />' . "\n";
 				}
 			}
@@ -137,6 +141,7 @@ class Beriyack_Plugin_SEO {
 			$url         = get_author_posts_url( $author->ID );
 		} elseif ( is_search() ) {
 			$search_query = get_search_query();
+			/* translators: 1: Requête de recherche, 2: Nom du site */
 			$description  = sprintf( __( 'Résultats de la recherche pour "%1$s" sur le blog de %2$s.', 'beriyack-plugin' ), $search_query, $site_name );
 			$url          = get_search_link( $search_query );
 		} elseif ( is_404() ) {
@@ -164,33 +169,33 @@ class Beriyack_Plugin_SEO {
 
 		// Rendu HTML
 		echo "\n<!-- Balises SEO Réseaux Sociaux - Beriyack Plugin -->\n";
-		echo '<meta name="author" content="' . $author_name . '" />' . "\n";
-		echo '<meta property="og:site_name" content="' . $site_name . '" />' . "\n";
-		echo '<meta property="og:type" content="' . $type . '" />' . "\n";
-		echo '<meta property="og:title" content="' . $title . '" />' . "\n";
-		echo '<meta property="og:url" content="' . $url . '" />' . "\n";
+		echo '<meta name="author" content="' . esc_attr( $author_name ) . '" />' . "\n";
+		echo '<meta property="og:site_name" content="' . esc_attr( $site_name ) . '" />' . "\n";
+		echo '<meta property="og:type" content="' . esc_attr( $type ) . '" />' . "\n";
+		echo '<meta property="og:title" content="' . esc_attr( $title ) . '" />' . "\n";
+		echo '<meta property="og:url" content="' . esc_url( $url ) . '" />' . "\n";
 		echo '<meta property="og:locale" content="' . esc_attr( get_locale() ) . '" />' . "\n";
-
+ 
 		if ( ! empty( $description ) ) {
-			echo '<meta name="description" content="' . $description . '" />' . "\n";
-			echo '<meta property="og:description" content="' . $description . '" />' . "\n";
+			echo '<meta name="description" content="' . esc_attr( $description ) . '" />' . "\n";
+			echo '<meta property="og:description" content="' . esc_attr( $description ) . '" />' . "\n";
 		}
 		if ( ! empty( $image ) ) {
-			echo '<meta property="og:image" content="' . $image . '" />' . "\n";
+			echo '<meta property="og:image" content="' . esc_url( $image ) . '" />' . "\n";
 		}
 		if ( ! empty( $fb_app_id ) ) {
 			echo '<meta property="fb:app_id" content="' . esc_attr( $fb_app_id ) . '" />' . "\n";
 		}
-
+ 
 		// Rendu des balises Twitter Card
 		echo '<meta name="twitter:card" content="summary_large_image" />' . "\n";
-		echo '<meta name="twitter:title" content="' . $title . '" />' . "\n";
+		echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '" />' . "\n";
 		
 		if ( ! empty( $description ) ) {
-			echo '<meta name="twitter:description" content="' . $description . '" />' . "\n";
+			echo '<meta name="twitter:description" content="' . esc_attr( $description ) . '" />' . "\n";
 		}
 		if ( ! empty( $image ) ) {
-			echo '<meta name="twitter:image" content="' . $image . '" />' . "\n";
+			echo '<meta name="twitter:image" content="' . esc_url( $image ) . '" />' . "\n";
 		}
 		if ( ! empty( $image_alt ) ) {
 			echo '<meta name="twitter:image:alt" content="' . esc_attr( $image_alt ) . '" />' . "\n";
