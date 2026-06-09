@@ -84,6 +84,59 @@ if ( ! defined( 'WPINC' ) ) {
 							</div>
 						</div>
 
+						<!-- Section : Statut du système -->
+						<div class="beriyack-card system-status-card">
+							<h3>Statut du système</h3>
+							<p class="card-subtitle">Vérifiez la compatibilité et la configuration technique de votre environnement WordPress.</p>
+							
+							<div class="system-status-grid">
+								<div class="system-status-item">
+									<span class="status-label">Support du titre par le thème (title-tag) :</span>
+									<?php if ( current_theme_supports( 'title-tag' ) ) : ?>
+										<span class="status-badge success">✅ Actif</span>
+									<?php else : ?>
+										<span class="status-badge danger">❌ Désactivé</span>
+									<?php endif; ?>
+								</div>
+								
+								<div class="system-status-item">
+									<span class="status-label">Version de PHP :</span>
+									<?php 
+									$php_version = PHP_VERSION;
+									if ( version_compare( $php_version, '7.4', '>=' ) ) {
+										echo '<span class="status-badge success">✅ ' . esc_html( $php_version ) . '</span>';
+									} else {
+										echo '<span class="status-badge warning">⚠️ ' . esc_html( $php_version ) . ' (Recommandé : 7.4+)</span>';
+									}
+									?>
+								</div>
+								
+								<div class="system-status-item">
+									<span class="status-label">Version de WordPress :</span>
+									<?php 
+									global $wp_version;
+									if ( version_compare( $wp_version, '5.0', '>=' ) ) {
+										echo '<span class="status-badge success">✅ ' . esc_html( $wp_version ) . '</span>';
+									} else {
+										echo '<span class="status-badge warning">⚠️ ' . esc_html( $wp_version ) . ' (Recommandé : 5.0+)</span>';
+									}
+									?>
+								</div>
+
+								<div class="system-status-item">
+									<span class="status-label">Sitemaps WordPress natifs :</span>
+									<?php if ( function_exists( 'wp_get_sitemap_providers' ) && wp_sitemaps_get_server() ) : ?>
+										<span class="status-badge success">✅ Actifs</span>
+									<?php else : ?>
+										<span class="status-badge warning">⚠️ Désactivés / Non supportés</span>
+									<?php endif; ?>
+								</div>
+							</div>
+							<p class="example-info" style="margin-top: 15px; margin-bottom: 0;">
+								<strong>Info thème :</strong> La gestion automatique des titres par WordPress évite les conflits et doublons de balises <code>&lt;title&gt;</code> dans le code source de vos pages.
+							</p>
+						</div>
+
 						<div class="beriyack-card">
 							<h3>Guide de démarrage rapide</h3>
 							<ul class="beriyack-guide-list">

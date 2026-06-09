@@ -930,3 +930,63 @@
 		grid-template-columns: 1fr;
 	}
 }
+
+/* Grille de diagnostic système */
+.system-status-card {
+	margin-top: 24px;
+}
+
+.system-status-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 16px 32px;
+	margin-top: 16px;
+}
+
+.system-status-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 12px 16px;
+	background: var(--by-bg-main);
+	border: 1px solid var(--by-border);
+	border-radius: var(--by-radius-sm);
+}
+
+.status-label {
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--by-text-main);
+}
+
+.status-badge {
+	font-size: 12px;
+	font-weight: 600;
+	padding: 4px 10px;
+	border-radius: 20px;
+	display: inline-flex;
+	align-items: center;
+}
+
+.status-badge.success {
+	background: var(--by-success-light);
+	color: var(--by-success);
+}
+
+.status-badge.danger {
+	background: var(--by-danger-light);
+	color: var(--by-danger);
+}
+
+.status-badge.warning {
+	background: #fef3c7;
+	color: #d97706;
+}
+
+@media (max-width: 782px) {
+	.system-status-grid {
+		grid-template-columns: 1fr;
+		gap: 12px;
+	}
+}
+
