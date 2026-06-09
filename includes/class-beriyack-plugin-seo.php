@@ -126,7 +126,7 @@ class Beriyack_Plugin_SEO {
 			}
 			// Ajoute un lien vers le sitemap des taxonomies pour un meilleur SEO.
 			if ( function_exists( 'wp_get_sitemap_providers' ) && function_exists( 'get_sitemap_url' ) ) {
-				$sitemap_url = get_sitemap_url( $term->taxonomy );
+				$sitemap_url = get_sitemap_url( 'taxonomies', $term->taxonomy );
 				if ( $sitemap_url ) {
 					echo '<link rel="sitemap" type="application/xml" title="' . esc_attr( sprintf( __( 'Sitemap %s', 'beriyack-plugin' ), $term->taxonomy ) ) . '" href="' . esc_url( $sitemap_url ) . '" />' . "\n";
 				}
