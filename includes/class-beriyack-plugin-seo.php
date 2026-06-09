@@ -34,7 +34,7 @@ class Beriyack_Plugin_SEO {
 		$enabled = isset( $options['seo_add_sitemap_robots'] ) ? $options['seo_add_sitemap_robots'] : '1';
 
 		if ( '1' === $enabled && function_exists( 'get_sitemap_url' ) ) {
-			$output .= 'Sitemap: ' . esc_url( get_sitemap_url() ) . "\n";
+			$output .= 'Sitemap: ' . esc_url( get_sitemap_url( 'index' ) ) . "\n";
 		}
 
 		return $output;
@@ -124,6 +124,13 @@ class Beriyack_Plugin_SEO {
 			if ( empty( $description ) ) {
 				$description = sprintf( __( 'Retrouvez tous les contenus liés à %s.', 'beriyack-plugin' ), $term->name );
 			}
+			// Ajoute un lien vers le sitemap des taxonomies pour un meilleur SEO.
+			if ( function_exists( 'wp_get_sitemap_providers' ) && function_exists( 'get_sitemap_url' ) ) {
+				$sitemap_url = get_sitemap_url( $term->taxonomy );
+				if ( $sitemap_url ) {
+					echo '<link rel="sitemap" type="application/xml" title="' . esc_attr( sprintf( __( 'Sitemap %s', 'beriyack-plugin' ), $term->taxonomy ) ) . '" href="' . esc_url( $sitemap_url ) . '" />' . "\n";
+				}
+			}
 		} elseif ( is_author() ) {
 			$author      = get_queried_object();
 			$description = get_the_author_meta( 'description', $author->ID );
@@ -165,6 +172,7 @@ class Beriyack_Plugin_SEO {
 		echo '<meta property="og:locale" content="' . esc_attr( get_locale() ) . '" />' . "\n";
 
 		if ( ! empty( $description ) ) {
+			echo '<meta name="description" content="' . $description . '" />' . "\n";
 			echo '<meta property="og:description" content="' . $description . '" />' . "\n";
 		}
 		if ( ! empty( $image ) ) {
