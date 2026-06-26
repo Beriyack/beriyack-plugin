@@ -410,6 +410,8 @@
 	font-weight: 600;
 	color: var(--by-text-main);
 	display: block;
+	line-height: 1.4;
+	white-space: normal;
 }
 
 .description {
@@ -997,6 +999,18 @@
 
 	.beriyack-card {
 		padding: 20px 16px;
+	}
+}
+
+@media (max-width: 600px) {
+	.control-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+	}
+
+	.beriyack-switch {
+		margin-top: 4px;
 	}
 }
 
