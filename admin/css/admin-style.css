@@ -402,6 +402,7 @@
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 6px;
+	gap: 16px;
 }
 
 .control-label {
@@ -440,6 +441,7 @@
 	display: inline-block;
 	width: 46px;
 	height: 24px;
+	flex-shrink: 0;
 }
 
 /* Reste invisible mais couvre toute la surface du switch pour intercepter le clic */
@@ -987,6 +989,14 @@
 	.system-status-grid {
 		grid-template-columns: 1fr;
 		gap: 12px;
+	}
+
+	.beriyack-main {
+		padding: 20px 16px;
+	}
+
+	.beriyack-card {
+		padding: 20px 16px;
 	}
 }
 
